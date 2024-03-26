@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leave form for rgukt</title>
+<style>
+
+    .header {
+        border: 1px solid rgb(20, 19, 19);
+        margin-top: 3%;
+        margin-left: 5%;
+        width: 90%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .header img {
+        margin-top: 10px;
+    }
+
+    .heading {
+        text-align: center;
+        flex-grow: 1;
+        text-transform: uppercase;
+        font-weight: bold;
+        line-height: 1.5;
+
+    }
+
+    .second {
+        margin-top: 2%;
+        text-align: center;
+        line-height: 1.5;
+
+    }
+
+    .left {
+        text-align: right;
+        margin-right: 80px;
+    }
+
+   
+    .text {
+        margin-left: 10%;
+    }
+    table{
+        margin: 5%;
+    }
+    .td{
+        padding: 1.5%;
+        width: 70%;
+    }
+    .td1{   
+       width: 30%;
+    }
+    img{
+        margin: 10px;
+        color: yellow;
+    }
+    strong{
+        font-size: 16px;
+    }
+    .step {
+        display: none;
+    }
+    .step.active {
+        display: block;
+    }
+
+    * {
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: "Poppins-Regular";
+        font-size: 15px;
+        color: #666;
+        background-color: #115c58;
+        margin: 0;
+    }
+
+    :focus {
+        outline: none;
+    }
+
+    input,
+    button {
+        font-family: "Poppins-Regular";
+        font-size: 15px;
+        color: #666;
+    }
+
+    .step {
+        margin-bottom: 20px;
+        background: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        width: 50%;
+        margin:5% 0 0 20%;
+    }
+
+    .step h3 {
+        font-family: "Poppins-SemiBold";
+        margin-bottom: 20px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"] {
+        width: 80%;
+        padding: 10px;
+        margin-left: 10%;
+        margin-bottom: 10px;
+        border: 1px solid #e6e6e6;
+        border-radius: 5px;
+        box-shadow: none;
+    }
+
+    button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 0%;
+        background-color: #6200EA;
+        color: #fff;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #5200ca;
+    }
+    @media only screen and (max-width: 768px) {
+        .step{
+            width: 90%;
+            margin: 20% auto; 
+        }
+    }
+</style>
+</head>
+<body>
+
+<form id="dynamicForm" onsubmit="return false">
+    <div class="step active" id="step1">
+        <h3>Leave Details :</h3>
+        <input type="text" id="field1" placeholder="Name of The Staff members & Emp Id (In Block Letter)">
+        <input type="text" id="field2" placeholder="Designation, Department & Campus">
+        <input type="text" id="field3" placeholder="Whether holding Permanent/contract/ Guest/Outsourcing position">
+        <br>
+        <button onclick="nextStep(1)">Next</button>
+    </div>
+    <div class="step" id="step2">
+        <h3>Leave  Details :</h3>
+        <input type="text" id="field4" placeholder="Nature of Leave applied (CL/OD/LOP)">
+        <input type="text" id="field5" placeholder="Period of Leave applied">
+        <input type="text" id="field6" placeholder="No of Leaves available">
+        <br>
+        <button onclick="prevStep(2)">Previous</button>
+        <button onclick="nextStep(2)">Next</button>
+    </div>
+    <div class="step" id="step3">
+        <h3>Leave  Details :</h3>
+        <input type="text" id="field7" placeholder="Purpose">
+        <input type="text" id="field8" placeholder="Enclose supporting documents, if any">
+        <input type="text" id="field9" placeholder="Address for communication in case of urgency, Including contact Phone Number">
+        <br>
+        <button onclick="prevStep(3)">Previous</button>
+        <button id="generatePdf">Generate PDF</button>
+    </div>
+</form>
+
+
+<script>
+    function nextStep(step) {
+        var currentStep = document.getElementById('step' + step);
+        var nextStep = document.getElementById('step' + (step + 1));
+        if (validateStep(step)) {
+            currentStep.classList.remove('active');
+            nextStep.classList.add('active');
+        }
+    }
+
+    function prevStep(step) {
+        var currentStep = document.getElementById('step' + step);
+        var prevStep = document.getElementById('step' + (step - 1));
+        currentStep.classList.remove('active');
+        prevStep.classList.add('active');
+    }
+
+    function validateStep(step) {
+        if (step === 1) {
+            var field1 = document.getElementById('field1').value.trim();
+            var field2 = document.getElementById('field2').value.trim();
+            return field1 !== '' && field2 !== '';
+        } else if (step === 2) {
+            var field3 = document.getElementById('field4').value.trim();
+            var field4 = document.getElementById('field5').value.trim();
+            var field5 = document.getElementById('field6').value.trim();
+            var field6 = document.getElementById('field7').value.trim();
+            return field3 !== '' && field4 !== '' && field5 !== '';
+        } else {
+            var field7 = document.getElementById('field8').value.trim();
+            var field8 = document.getElementById('field9').value.trim();
+            return  field6 !== '' && field7 !== '' && field8 !== '' && field9 !== '';
+        }
+    }
+
+    document.getElementById('generatePdf').addEventListener('click', function () {
+        var field1 = document.getElementById('field1').value;
+        var field2 = document.getElementById('field2').value;
+        var field3 = document.getElementById('field3').value;
+        var field4 = document.getElementById('field4').value;
+        var field5 = document.getElementById('field5').value;
+        var field6 = document.getElementById('field6').value;
+        var field7 = document.getElementById('field7').value;
+        var field8 = document.getElementById('field8').value;
+        var field9 = document.getElementById('field9').value;
+        if (!field1 || !field2 || !field3 || !field4 || !field5 || !field6 || !field7 || !field8 || !field9) {
+            alert("Please fill in all the fields");
+            return;
+        }
+
+        var documentContent = '' +
+        '<div class="header" style="border: 1px solid rgb(20, 19, 19); margin-top: 0%; margin-left: 5%; width: 90%; display: flex; flex-direction: row; align-items: center;">' +
+        '<img src="rgukt.jpeg" alt="" srcset="" height="80px" width="80px" style="margin: 10px;">' +
+        '<div class="heading" style="text-align: center; flex-grow: 1; text-transform: uppercase; font-weight: bold; line-height: 1.5; font-size: 12px;">RGUKT SRIKAKULAM <br>rajiv gandhi university of knowledge technologies - AP</div>' +
+        '</div>' +
+        '<div class="second" style="margin-top: 2%; text-align: center; line-height: 1.5;">' +
+        '<i style="font-size: 12px;">Application For LEAVE(for Teaching / Non-Teaching Staff )</i><br>' +
+        '<i style="font-size: 12px;">(To be filled-in by the applicant)</i>' +
+        '</div>' +
+        '<div class="left" style="text-align: right; margin-right: 80px;">' +
+        '<p style="font-size: 12px;">Date :________________</p>' +
+        '</div>' +
+        '<table style="margin: 5%; font-size: 12px;">' +
+        '<tr class="tr">' +
+        '<td class="td" style="padding: 1.5%; width: 55%;"><strong style="font-size: 12px;">1.&nbsp; Name of The Staff members & Emp Id: <br>&nbsp;&nbsp;&nbsp;(IN Block Letter)</strong></td>' +
+        '<td class="td1" style="width:45%;">'+ field1 +'</td>' +
+        '</tr>' +
+        '<tr class="tr">' +
+        '<td class="td" style="padding: 1.5%; width: 55%;"><strong style="font-size: 12px;">2.&nbsp; Designation, Department & Campus</strong></td>' +
+        '<td class="td1" style="width: 30%;"> '+ field2 +'</td>' +
+        '</tr>' +
+        '<tr class="tr">' +
+        '<td class="td" style="padding: 1.5%; width: 55%;"><strong style="font-size: 12px;">3.&nbsp; Whether holding Permanent/contract/ <br><br> &nbsp;&nbsp;&nbsp;Guest/Outsourcing position</strong></td>' +
+        '<td class="td1" style="width: 30%;"> '+ field3 +'</td>' +
+        '</tr>' +
+        '<tr class="tr">' +
+        '<td class="td" style="padding: 1.5%; width: 55%;"><strong style="font-size: 12px;">4.&nbsp; Nature of Leave applied (CL/OD/LOP)</strong></td>' +
+        '<td class="td1" style="width: 30%;">'+ field4 +' </td>' +
+        '</tr>' +
+        '<tr class="tr">' +
+        '<td class="td" style="padding: 1.5%; width: 55%;"><strong style="font-size: 12px;">5.&nbsp;Period of Leave applied</strong></td>' +
+        '<td class="td1" style="width: 30%;"> '+ field5 +'</td>' +
+        '</tr>' +
+        '<tr class="tr">' +
+        '<td class="td" style="padding: 1.5%; width: 55%;"><strong style="font-size: 12px;">6.&nbsp; No of Leaves available</strong></td>' +
+        '<td class="td1" style="width: 30%;">'+ field6 +' </td>' +
+        '</tr>' +
+        '<tr class="tr">' +
+        '<td class="td" style="padding: 1.5%; width: 55%;"><strong style="font-size: 12px;">7.&nbsp; Purpose</strong></td>' +
+        '<td class="td1" style="width: 30%;">'+ field7 +' </td>' +
+        '</tr>' +
+        '<tr class="tr">' +
+        '<td class="td" style="padding: 1.5%; width: 55%;"><strong style="font-size: 12px;">8.&nbsp; Enclose supporting documents, if any</strong></td>' +
+        '<td class="td1" style="width: 30%;">'+ field8 +' </td>' +
+        '</tr>' +
+        '<tr class="tr">' +
+        '<td class="td" style="padding: 1.5%; width: 55%;"><strong style="font-size: 12px;">9.&nbsp; Address for communication in case of urgency, Including contact Phone Number</strong></td>' +
+        '<td class="td1" style="width: 30%;"> '+ field9 +'</td>' +
+        '</tr>' +
+        '<tr class="tr">' +
+        '<td class="td" style="padding: 1.5%; width: 55%;"><strong style="font-size: 12px;">10.&nbsp; Work adjustment proposed during &nbsp;&nbsp;&nbsp; Leave Period</strong></td>' +
+        '</tr>' +
+        '</table>'+
+        '<table style="border: 1px solid black; border-collapse: collapse; width: 100%; font-size: 12px;">' +
+        '<tr>' +
+        '<th style="padding: 0.5%; width: 30%; border: 1px solid black; border-collapse: collapse;">Days (s) & date (s)</th>' +
+        '<th style="padding: 0.5%; width: 30%; border: 1px solid black; border-collapse: collapse;">Details of class work assigned as per the Time-Table</th>' +
+        '<th colspan="2" style="padding: 0.5%; width: 40%; border: 1px solid black; border-collapse: collapse;">Name of the Staff member with whom work is adjusted and he/her signature</th>' +
+        '</tr>' +
+        '<tr>' +
+        '<td style="padding-top: 3%; border: 1px solid black; border-collapse: collapse;"></td>' +
+        '<td style="padding-top: 3%; border: 1px solid black; border-collapse: collapse;"></td>' +
+        '<td style="padding-top: 3%; border: 1px solid black; border-collapse: collapse;"></td>' +
+        '<td style="padding-top: 3%; border: 1px solid black; border-collapse: collapse;"></td>' +
+        '</tr>' +
+        '<tr>' +
+            '<td style="padding-top: 3%; border: 1px solid black; border-collapse: collapse;"></td>' +
+            '<td style="padding-top: 3%; border: 1px solid black; border-collapse: collapse;"></td>' +
+            '<td style="padding-top: 3%; border: 1px solid black; border-collapse: collapse;"></td>' +
+            '<td style="padding-top: 3%; border: 1px solid black; border-collapse: collapse;"></td>' +
+            '</tr>' +
+              '<tr>' +
+                '<td style="padding-top: 3%; border: 1px solid black; border-collapse: collapse;"></td>' +
+                '<td style="padding-top: 3%; border: 1px solid black; border-collapse: collapse;"></td>' +
+                '<td style="padding-top: 3%; border: 1px solid black; border-collapse: collapse;"></td>' +
+                '<td style="padding-top: 3%; border: 1px solid black; border-collapse: collapse;"></td>' +
+                '</tr>' 
+                +'<tr>' +
+                    '<td style="padding-top: 3%; border: 1px solid black; border-collapse: collapse;"></td>' +
+                    '<td style="padding-top: 3%; border: 1px solid black; border-collapse: collapse;"></td>' +
+                    '<td style="padding-top: 3%; border: 1px solid black; border-collapse: collapse;"></td>' +
+                    '<td style="padding-top: 3%; border: 1px solid black; border-collapse: collapse;"></td>' +
+                    '</tr>' +
+        '</table>' +
+        '<div class="right" style="margin-left: 5%; margin-top:5%; font-size: 12px;">' +
+        
+        '<div class="right" style="margin-left: 5%;font-size:15px">' +
+        '<table width="90%"><tr>' +
+        '<td>Recommended/Not Recommended</td>' +
+        '<td class="applicant" align="right">signature of the applicant</td>' +
+        '</tr></table>' +
+        '<table  width="100%" style="margin-top:7%">' +
+        '<tr><td  width="40%"> <span class="span" style="margin-left: 6%;font-size:15px"> Signature of the</span> <br>' +
+        '<span class="span1" style="margin-top: 3%; margin-left: 4%;font-size: 12px;">Head of the Department </span><br>' +
+        '<span style="font-size:15px"> with office seal & remarks, if any</span>' +
+        '</td>' +
+        '<td ><span class="span" style="font-size: 12px;">Signature of the COE <br> with office seal & remarks,if any</span></td>' +
+        '<td><span style="font-size: 12px;">Signature of The Director/Dean/AO <br>with office seal & remarks,if any</span></td>' +
+        '</tr>' +
+        '</table>' +
+        '</div>';
+        
+    
+    
+        var iframe = document.createElement('iframe');
+        iframe.style.display = 'none';
+        document.body.appendChild(iframe);
+
+        var iframeDocument = iframe.contentWindow.document;
+        iframeDocument.open();
+        iframeDocument.write('<html><head><title>LEAVE LETTER</title></head><body>');
+        iframeDocument.write(documentContent);
+        iframeDocument.write('</body></html>');
+        iframeDocument.close();
+
+        setTimeout(function () {
+            iframe.contentWindow.print();
+
+            document.body.removeChild(iframe);
+
+            alert("Document printed successfully!");
+        }, 100);
+    });
+</script>
+
+</body>
+</html>
