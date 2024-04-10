@@ -306,12 +306,21 @@
             '<td style="padding-top: 3%; border: 1px solid black; border-collapse: collapse;"></td>' +
             '</tr>' +
             '</table>' +
-            '<div class="right" style="margin-left: 5%; margin-top:5%">' +
-            '<p style="font-size: 12px; text-align: right;">' +
-            'Signature of the applicant' +
-            '</p>' +
-            '</div>' +
-            '</div>';
+            '<div class="right" style="margin-left: 5%; margin-top:5%; font-size: 12px;">' +
+                '<table width="90%"><tr>' +
+                '<td>Recommended/Not Recommended</td>' +
+                '<td class="applicant" align="right">signature of the applicant</td>' +
+                '</tr></table>' +
+                '<table  width="100%" style="margin-top:7%">' +
+                '<tr><td  width="40%"> <span class="span" style="margin-left: 6%;font-size:15px"> Signature of the</span> <br>' +
+                '<span class="span1" style="margin-top: 3%; margin-left: 4%;font-size: 12px;">Head of the Department </span><br>' +
+                '<span style="font-size:15px"> with office seal & remarks, if any</span>' +
+                '</td>' +
+                '<td ><span class="span" style="font-size: 12px;">Signature of the COE <br> with office seal & remarks,if any</span></td>' +
+                '<td><span style="font-size: 12px;">Signature of The Director/Dean/AO <br>with office seal & remarks,if any</span></td>' +
+                '</tr>' +
+                '</table>' +
+                '</div>';
 
             var newWindow = window.open('', '_blank');
             newWindow.document.open();
